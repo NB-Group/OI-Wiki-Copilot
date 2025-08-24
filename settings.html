@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>OI-Wiki Copilot - 设置</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Import OI-Wiki theme variables */
+        :root {
+            --md-hue: 225deg;
+            --md-default-fg-color: #000000de;
+            --md-default-fg-color--light: #0000008a;
+            --md-default-fg-color--lighter: #00000052;
+            --md-default-fg-color--lightest: #00000012;
+            --md-default-bg-color: #fff;
+            --md-code-bg-color: #f5f5f5;
+            --md-accent-fg-color: #526cfe;
+            --md-shadow-z1: 0 0.2rem 0.5rem #0000000d, 0 0 0.05rem #0000001a;
+            --md-typeset-table-color: #0000001f;
+            --md-text-font-family: "Fira Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --md-code-font-family: "Fira Mono", SFMono-Regular, Consolas, Menlo, monospace;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --md-default-fg-color: hsla(var(--md-hue), 15%, 90%, 0.82);
+                --md-default-fg-color--light: hsla(var(--md-hue), 15%, 90%, 0.56);
+                --md-default-fg-color--lighter: hsla(var(--md-hue), 15%, 90%, 0.32);
+                --md-default-fg-color--lightest: hsla(var(--md-hue), 15%, 90%, 0.12);
+                --md-default-bg-color: hsla(var(--md-hue), 15%, 14%, 1);
+                --md-code-bg-color: hsla(var(--md-hue), 15%, 18%, 1);
+                --md-accent-fg-color: #00bda4;
+                --md-typeset-a-color: #526cfe;
+                --md-shadow-z1: 0 0.2rem 0.5rem #0000000d, 0 0 0.05rem #0000001a;
+                --md-typeset-table-color: hsla(var(--md-hue), 15%, 95%, 0.12);
+            }
+        }
+        
+        body {
+            font-family: var(--md-text-font-family);
+            background-color: var(--md-default-bg-color);
+            color: var(--md-default-fg-color);
+            margin: 0;
+            padding: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--md-typeset-table-color);
+            padding-bottom: 0.5rem;
+            font-weight: 400;
+        }
+        h1 { font-size: 1.8rem; }
+        h2 { font-size: 1.4rem; margin-top: 2rem; }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--md-typeset-table-color);
+            gap: 1rem;
+        }
+        .setting-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .setting-item > label:first-child {
+            white-space: nowrap;
+            flex-shrink: 0;
+            color: var(--md-default-fg-color--light);
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            font-family: var(--md-text-font-family); /* Match AI dialog font */
+            border: 1px solid var(--md-typeset-table-color);
+            background-color: var(--md-code-bg-color);
+            color: var(--md-default-fg-color);
+            padding: 0.6rem 1rem; /* Match AI dialog padding */
+            height: auto; /* Allow padding to define height */
+            border-radius: .2rem; /* Match AI dialog radius */
+            flex-grow: 1;
+            text-align: left;
+            transition: all .2s;
+            font-size: .9rem; /* Match AI dialog font size */
+            box-sizing: border-box;
+        }
+        input[type="text"]:hover,
+        input[type="password"]:hover {
+            border-color: var(--md-default-fg-color--lighter);
+            background-color: var(--md-code-bg-color); /* Keep bg consistent on hover */
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            background-color: var(--md-default-bg-color);
+            border-color: var(--md-accent-fg-color);
+            box-shadow: 0 0 0 2px var(--md-accent-fg-color); /* Match AI dialog shadow */
+        }
+
+        /* Toggle Switch styles */
+        .switch {
+          position: relative;
+          display: inline-block;
+          width: 44px;
+          height: 24px;
+        }
+
+        .switch input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: var(--md-default-fg-color--lightest);
+          transition: .2s;
+          border-radius: 24px;
+          border: 1px solid var(--md-default-fg-color--lighter);
+        }
+
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 18px;
+          width: 18px;
+          left: 3px;
+          bottom: 3px;
+          background-color: var(--md-default-bg-color);
+          transition: .2s;
+          border-radius: 50%;
+          box-shadow: var(--md-shadow-z1);
+        }
+
+        input:checked + .slider {
+          background-color: var(--md-accent-fg-color);
+          border-color: var(--md-accent-fg-color);
+          box-shadow: none;
+        }
+
+        input:checked + .slider:before {
+          transform: translateX(20px);
+        }
+
+        #api-key {
+            width: 100%;
+            padding: 0.5rem;
+        }
+
+        button#save {
+            background-color: var(--md-accent-fg-color);
+            color: var(--md-default-bg-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: .2rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            display: block;
+            margin-top: 2rem;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+        button#save:hover {
+            opacity: 0.85;
+        }
+        
+        #status {
+            margin-top: 1rem;
+            display: block;
+            text-align: center;
+            color: var(--md-accent-fg-color);
+            min-height: 1.5rem;
+        }
+
+        a {
+            color: var(--md-typeset-a-color);
+            text-decoration: none;
+            transition: color 125ms;
+        }
+        a:hover {
+            color: var(--md-accent-fg-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OI-Wiki Copilot - 设置</h1>
+        <h2>👋 欢迎！</h2>
+        <p>感谢安装！为了获得最佳体验，我们建议您将插件固定到浏览器工具栏上。</p>
+        <p>此插件现在支持强大的 AI 功能，由 <a href="https://siliconflow.cn/" target="_blank">Siliconflow</a> 提供支持。该平台为开发者提供了大量免费的、高质量的大语言模型调用额度。</p>
+        <h2>AI 设置</h2>
+        <div class="setting-item">
+            <label for="api-key">Siliconflow API Key:</label>
+            <input type="password" id="api-key" placeholder="在此输入你的 API Key">
+        </div>
+        <div class="setting-item">
+            <label for="model-id">Model ID:</label>
+            <input type="text" id="model-id" placeholder="例如: Qwen/Qwen2.5-7B-Instruct">
+        </div>
+
+        <h2>右键菜单管理</h2>
+        <div class="setting-item">
+            <label for="toggle-add-annotation">启用“添加注释”</label>
+            <label class="switch">
+                <input type="checkbox" id="toggle-add-annotation">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="setting-item">
+            <label for="toggle-search">启用“在 OI-Wiki 中查询”</label>
+            <label class="switch">
+                <input type="checkbox" id="toggle-search">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="setting-item">
+            <label for="toggle-ask-ai">启用“对 AI 提问”</label>
+            <label class="switch">
+                <input type="checkbox" id="toggle-ask-ai">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="setting-item">
+            <label for="toggle-rewrite">启用“优化此段落 (AI)”</label>
+            <label class="switch">
+                <input type="checkbox" id="toggle-rewrite">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <button id="save">保存设置</button>
+        <span id="status"></span>
+    </div>
+    <script src="js/settings.js"></script>
+</body>
+</html>
+
+
+
